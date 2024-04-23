@@ -30,7 +30,7 @@ public class Statement {
     private Long beneficiaryNumber;
 
     private String comment;
-    
+
     @NotNull
     private Long amount;
 
