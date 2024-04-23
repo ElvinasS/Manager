@@ -3,9 +3,7 @@ package com.Bank.Manager.model;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class Statement {
 
     private static final String DATE_FORMAT_MESSAGE = "Date format: yyyy-mm-dd-hh-mm";
-    private static final String DATE_PATTERN = "^\\d{4}-\\d{2}-\\d{2}-\\d{2}-\\d{2}$";
+    private static final String DATE_PATTERN = "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}$";
 
     private Long id;
 

@@ -33,7 +33,4 @@ public class StatementDAO {
     @Column(name = "currency")
     private String currency;
 
-    private StatementDAO(Long statemnt){
-
-    }
 }
