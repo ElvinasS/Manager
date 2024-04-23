@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
+
 @Component
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -22,7 +25,7 @@ public class Statement {
 
     @NotNull
     @Pattern(regexp = DATE_PATTERN, message = DATE_FORMAT_MESSAGE)
-    private String operationDate;
+    private LocalDateTime operationDate;
 
     @NotNull
     private Long beneficiaryNumber;

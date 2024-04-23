@@ -1,8 +1,9 @@
 package com.Bank.Manager.business.repository.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class StatementDAO {
     private Long accountNumber;
 
     @Column(name = "operation_date")
-    private String operationDate;
+    private LocalDateTime operationDate;
 
     @Column(name = "beneficiary_number")
     private Long beneficiaryNumber;
@@ -32,5 +33,6 @@ public class StatementDAO {
 
     @Column(name = "currency")
     private String currency;
+
 
 }
