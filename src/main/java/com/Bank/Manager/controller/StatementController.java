@@ -49,13 +49,16 @@ public class StatementController {
     }
 
     @PostMapping("/uploadCsv")
-    public ResponseEntity<String> uploadCsv(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadCsv(@RequestParam("files") List<MultipartFile> files) {
         try {
-            List<Statement> statements = CsvUtils.parseCsvFile(file.getInputStream());
-            statementService.saveStatements(statements);
-            return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
+            statementService.saveStatementsFromMultipleFiles(files);
+            return new ResponseEntity<>("Files uploaded successfully", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to upload file" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            // Log the exception
+            e.printStackTrace();
+
+            // Return error response
+            return new ResponseEntity<>("Failed to upload files: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
