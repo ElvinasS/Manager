@@ -1,15 +1,12 @@
 package com.Bank.Manager.controller;
 
-
 import com.Bank.Manager.business.service.StatementService;
 import com.Bank.Manager.business.utils.CsvUtils;
 import com.Bank.Manager.model.Statement;
-import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,19 +31,6 @@ public class StatementController {
         }
         log.debug("Statement list is found. Size: {}", statementList::size);
         return ResponseEntity.ok(statementList);
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Statement> saveStatement(@Valid @RequestBody Statement statement, BindingResult bindingResult) throws Exception {
-        log.info("Create new statement by passing : {}", statement);
-        if (bindingResult.hasErrors()) {
-            log.error("New statement is not created: error {}", bindingResult);
-            return ResponseEntity.badRequest().build();
-        }
-        Statement statementSaved = statementService.saveStatement(statement);
-        log.debug("New statement is created: {}", statement);
-        return new ResponseEntity<>(statementSaved, HttpStatus.CREATED);
     }
 
     @PostMapping("/uploadCsv")

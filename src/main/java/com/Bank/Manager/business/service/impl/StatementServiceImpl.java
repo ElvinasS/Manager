@@ -7,11 +7,8 @@ import com.Bank.Manager.business.service.StatementService;
 import com.Bank.Manager.business.utils.CsvUtils;
 import com.Bank.Manager.model.Statement;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,16 +31,6 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public Statement saveStatement(Statement statement) throws Exception {
-        if (!hasMatch(statement)) {
-            StatementDAO statementSaved = statementRepository.save(statementMapStructMapper.statementToStatementDAO(statement));
-            return statementMapStructMapper.statementDAOToStatement(statementSaved);
-        }else {
-            throw new HttpClientErrorException(HttpStatus.CONFLICT);
-        }
-    }
-
-    @Override
     public void saveStatementsFromMultipleFiles(List<MultipartFile> files) throws Exception {
         List<Statement> allStatements = new ArrayList<>();
 
@@ -51,7 +38,6 @@ public class StatementServiceImpl implements StatementService {
             List<Statement> statements = CsvUtils.parseCsvFile(file.getInputStream());
             allStatements.addAll(statements);
         }
-
         saveAllStatements(allStatements);
     }
 
@@ -59,7 +45,6 @@ public class StatementServiceImpl implements StatementService {
         List<StatementDAO> statementDAOs = statements.stream()
                 .map(statementMapStructMapper::statementToStatementDAO)
                 .collect(Collectors.toList());
-
         statementRepository.saveAll(statementDAOs);
     }
 
@@ -78,7 +63,6 @@ public class StatementServiceImpl implements StatementService {
         for (StatementDAO statement : statements) {
             balance += statement.getAmount();
         }
-
         return balance;
     }
 
@@ -91,7 +75,6 @@ public class StatementServiceImpl implements StatementService {
         for (StatementDAO statement : statements) {
             balance += statement.getAmount();
         }
-
         return balance;
     }
 

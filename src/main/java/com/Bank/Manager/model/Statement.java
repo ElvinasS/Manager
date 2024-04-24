@@ -1,6 +1,5 @@
 package com.Bank.Manager.model;
 
-
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -15,8 +14,8 @@ import java.time.LocalDateTime;
 @Data
 public class Statement {
 
-    private static final String DATE_FORMAT_MESSAGE = "Date format: yyyy-mm-dd-hh-mm";
-    private static final String DATE_PATTERN = "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}$";
+    private static final String DATE_FORMAT_MESSAGE = "Date format: yyyy-MM-dd'T'HH:mm:ss";
+    private static final String DATE_PATTERN = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}$";
 
     private Long id;
 
@@ -37,5 +36,4 @@ public class Statement {
 
     @NotNull
     private String currency;
-
 }

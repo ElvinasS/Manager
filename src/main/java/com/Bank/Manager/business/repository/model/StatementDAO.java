@@ -2,7 +2,6 @@ package com.Bank.Manager.business.repository.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Data
@@ -33,6 +32,4 @@ public class StatementDAO {
 
     @Column(name = "currency")
     private String currency;
-
-
 }
