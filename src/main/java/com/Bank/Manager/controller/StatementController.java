@@ -91,4 +91,21 @@ public class StatementController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/balance")
+    public ResponseEntity<Long> getAccountBalanceByDateRange(
+            @RequestParam Long accountNumber,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime dateFrom,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime dateTo) {
+
+
+        if (dateFrom == null || dateTo == null) {
+            Long balance = statementService.getAccountBalance(accountNumber);
+            return ResponseEntity.ok(balance);
+        }
+        else {
+            Long balance = statementService.getAccountBalanceByDateRange(accountNumber, dateFrom, dateTo);
+            return ResponseEntity.ok(balance);
+        }
+    }
 }

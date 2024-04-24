@@ -69,6 +69,32 @@ public class StatementServiceImpl implements StatementService {
         return statementDAOList.stream().map(statementMapStructMapper::statementDAOToStatement).collect(Collectors.toList());
     }
 
+    @Override
+    public Long getAccountBalanceByDateRange(Long accountNumber, LocalDateTime dateFrom, LocalDateTime dateTo) {
+        List<StatementDAO> statements = statementRepository.findByAccountNumberAndDateRange(accountNumber, dateFrom, dateTo);
+
+        Long balance = 0L;
+
+        for (StatementDAO statement : statements) {
+            balance += statement.getAmount();
+        }
+
+        return balance;
+    }
+
+    @Override
+    public Long getAccountBalance(Long accountNumber) {
+        List<StatementDAO> statements = statementRepository.findByAccountNumber(accountNumber);
+
+        Long balance = 0L;
+
+        for (StatementDAO statement : statements) {
+            balance += statement.getAmount();
+        }
+
+        return balance;
+    }
+
     public boolean hasMatch(Statement statement){
         return statementRepository.findAll().stream().anyMatch(statementDAO -> isSame(statement, statementDAO));
     }

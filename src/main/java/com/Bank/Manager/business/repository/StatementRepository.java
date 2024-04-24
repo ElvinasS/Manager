@@ -15,4 +15,8 @@ public interface StatementRepository extends JpaRepository<StatementDAO, Long> {
     @Query("SELECT statement FROM StatementDAO statement WHERE statement.operationDate BETWEEN :dateFrom AND :dateTo")
     List<StatementDAO> findByDateRange(@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 
+    @Query("SELECT s FROM StatementDAO s WHERE s.accountNumber = :accountNumber AND s.operationDate BETWEEN :dateFrom AND :dateTo")
+    List<StatementDAO> findByAccountNumberAndDateRange(@Param("accountNumber") Long accountNumber, @Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
+
+    List<StatementDAO> findByAccountNumber(Long accountNumber);
 }

@@ -3,6 +3,7 @@ package com.Bank.Manager.business.service;
 import com.Bank.Manager.model.Statement;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,5 +15,9 @@ public interface StatementService {
     void saveStatementsFromMultipleFiles(List<MultipartFile> files) throws Exception;
 
     List<Statement> findStatementsByDateRange(LocalDateTime dateFrom, LocalDateTime dateTo);
+
+    Long getAccountBalance(Long accountNumber);
+
+    Long getAccountBalanceByDateRange(Long accountNumber, LocalDateTime dateFrom, LocalDateTime dateTo);
 
 }
