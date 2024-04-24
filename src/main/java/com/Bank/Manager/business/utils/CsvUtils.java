@@ -7,6 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,5 +34,24 @@ public class CsvUtils {
         }
 
         return statements;
+    }
+
+    public static byte[] convertStatementsToCsv(List<Statement> statements) {
+        StringBuilder csvContent = new StringBuilder();
+
+        // Append CSV header
+        csvContent.append("Account Number,Operation Date,Beneficiary Number,Comment,Amount,Currency\n");
+
+        // Append CSV rows
+        for (Statement statement : statements) {
+            csvContent.append(statement.getAccountNumber()).append(",")
+                    .append(statement.getOperationDate()).append(",")
+                    .append(statement.getBeneficiaryNumber()).append(",")
+                    .append(statement.getComment()).append(",")
+                    .append(statement.getAmount()).append(",")
+                    .append(statement.getCurrency()).append("\n");
+        }
+
+        return csvContent.toString().getBytes(StandardCharsets.UTF_8);
     }
 }

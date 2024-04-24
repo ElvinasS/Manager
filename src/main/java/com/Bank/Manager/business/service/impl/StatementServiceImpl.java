@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,6 +61,12 @@ public class StatementServiceImpl implements StatementService {
                 .collect(Collectors.toList());
 
         statementRepository.saveAll(statementDAOs);
+    }
+
+    @Override
+    public List<Statement> findStatementsByDateRange(LocalDateTime dateFrom, LocalDateTime dateTo) {
+        List<StatementDAO> statementDAOList = statementRepository.findByDateRange(dateFrom, dateTo);
+        return statementDAOList.stream().map(statementMapStructMapper::statementDAOToStatement).collect(Collectors.toList());
     }
 
     public boolean hasMatch(Statement statement){

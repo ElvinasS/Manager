@@ -7,12 +7,13 @@ import com.Bank.Manager.model.Statement;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Log4j2
@@ -59,6 +60,35 @@ public class StatementController {
 
             // Return error response
             return new ResponseEntity<>("Failed to upload files: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/exportCsv")
+    public ResponseEntity<byte[]> exportStatementsAsCsv(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTo) {
+        try {
+            List<Statement> statements;
+
+            if (dateFrom != null && dateTo != null) {
+                statements = statementService.findStatementsByDateRange(dateFrom, dateTo);
+            } else {
+                statements = statementService.findAllStatements();
+            }
+
+            byte[] csvData = CsvUtils.convertStatementsToCsv(statements);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType("text/csv"));
+            headers.setContentDisposition(ContentDisposition.builder("attachment").filename("statements.csv").build());
+
+            return new ResponseEntity<>(csvData, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            // Log the exception
+            e.printStackTrace();
+
+            // Return error response
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
