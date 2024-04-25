@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: BankManagementSystem
+    expose:
+      - "5433"
+    ports:
+      - "5433:5433"
+    volumes:
+      - postgres-data:/var/lib/postgres/data
+    command: -p 5433
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5433/BankManagementSystem
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      FLYWAY_URL: jdbc:postgresql://postgres:5433/BankManagementSystem
+volumes:
+  postgres-data: {}
