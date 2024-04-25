@@ -36,7 +36,13 @@ public class StatementServiceImpl implements StatementService {
 
         for (MultipartFile file : files) {
             List<Statement> statements = CsvUtils.parseCsvFile(file.getInputStream());
-            allStatements.addAll(statements);
+
+            for (Statement statement : statements) {
+                if (!hasMatch(statement)) {
+                    allStatements.add(statement);
+                }
+            }
+
         }
         saveAllStatements(allStatements);
     }
